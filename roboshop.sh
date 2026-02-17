@@ -21,7 +21,7 @@ do
     
     else
         IP = $(aws ec2 describe-instances \
-         --instance-ids $instance_id --query 'Reservations[].Instances[].PublicIpAddress' \
+         --instance-ids $instance_id --query 'Reservations[].Instances[].PrivateIpAddress' \
          --output text )
    fi
 done
