@@ -31,7 +31,8 @@ do
        RECORED_NAME="$instance.$DOMAIN_NAME" #MONGODB.PSPK.ONLINE
        fi 
         echo "IP address:  $IP"
-            aws route53 change-resource-record-sets \
+
+        aws route53 change-resource-record-sets \
             --hosted-zone-id "$ZONE_ID" 
             --change-batch '{
 
@@ -45,14 +46,14 @@ do
               "Type": "A",
               "TTL": 1,
               "ResourceRecords": [
-          {
-            "Value": "$IP"
+              {
+            "Value": "'$IP'"
           }
           ]
          }
     }
   ]
 }
-  echo "Record  updated for  '$instance' "
+  echo "Record  updated for '$instance'"
 
 done
