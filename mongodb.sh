@@ -4,8 +4,8 @@ set -e #ERR
 trap "echo 'this is error in line $LINENO,command $BASH_COMMAND'" ERR
 
 USERID=$(id -u)
-LOGS_FOLDER="/var/log/shellsriptforlooppkg_logs"
-LOGS_FILE=/var/log/shellsriptforlooppkg_logs/$0.log
+LOGS_FOLDER="/var/log/shell-roboshop"
+LOGS_FILE="$LOGS_FOLDER/$0.log"
 if [ $USERID -ne 0 ]; then
 echo -e "$R please run with root access $N" | tee -a $LOGS_FILE 
 exit 1
@@ -20,7 +20,7 @@ VALIDATE(){
     fi
 }
 cp mongo.repo /etc/yum.repos.d/mongo.repo
-validate $? " copying mongo repo file"
+validate $? "copying mongo repo file"
 
 dnf install mongodb-org -y 
 VALIDATE $? "mongodb installation on server"
