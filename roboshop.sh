@@ -47,12 +47,12 @@ do
               {
                "Value": "'$IP'"
               }
-        ]
+            ]
         }
     }
   ]
-},
+}' 
 
-echo "Record updated for '$instance'"
+echo "Record updated for $instance"
 
 done
