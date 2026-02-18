@@ -2,6 +2,8 @@
 
  SG_ID="sg-07907c7964eaaf4c5"
  AMI_ID="ami-0220d79f3f480ecf5"
+ ZONE_ID="Z048222339YB2Q89ONAT9"
+ DOMAIN_NAME="pspk.online"
  
 for instance in $@
 do      
@@ -17,12 +19,40 @@ do
         IP=$(aws ec2 describe-instances \
          --instance-ids $instance_id \
          --query 'Reservations[].Instances[].PublicIpAddress' \
-         --output text)
+         --output text
+         )
+         RECORED_NAME="$DOMAIN_NAME"  #PSPK.ONLINE
     else
         IP=$(aws ec2 describe-instances \
          --instance-ids $instance_id \
          --query 'Reservations[].Instances[].PrivateIpAddress' \
-         --output text)
-             echo "IP address  $IP"
-   fi
+         --output text
+         )
+       RECORED_NAME="$instance.$DOMAIN_NAME" #MONGODB.PSPK.ONLINE
+       fi 
+        echo "IP address:  $IP"
+            aws route53 change-resource-record-sets \
+            --hosted-zone-id "$ZONE_ID" 
+            --change-batch '{
+
+             {
+              "Comment": "Updating A record",
+              "Changes": [
+              {
+              "Action": "UPSERT",
+              "ResourceRecordSet": {
+              "Name": "'$RECORED_NAME'",
+              "Type": "A",
+              "TTL": 1,
+              "ResourceRecords": [
+          {
+            "Value": "$IP"
+          }
+          ]
+         }
+    }
+  ]
+}
+  echo "Record  updated for  '$instance' "
+
 done
