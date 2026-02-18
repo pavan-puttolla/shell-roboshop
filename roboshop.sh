@@ -35,9 +35,7 @@ do
         aws route53 change-resource-record-sets \
             --hosted-zone-id "$ZONE_ID" 
             --change-batch '{
-
-             {
-              "Comment": "Updating A record",
+            "Comment": "Updating A record",
               "Changes": [
               {
               "Action": "UPSERT",
@@ -47,13 +45,12 @@ do
               "TTL": 1,
               "ResourceRecords": [
               {
-            "Value": "'$IP'"
+             "Value": "'$IP'"
           }
-          ]
-         }
+         ]
+        }
     }
   ]
-}
-  echo "Record  updated for '$instance'"
-
+echo "Record updated for $instance "
+},
 done
