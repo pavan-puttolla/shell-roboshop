@@ -20,13 +20,13 @@ VALIDATE(){
     fi
 }
 
-dnf module disable nodejs -y
+dnf module disable nodejs -y &>>$LOGS_FILE
 VALIDATE $? "disable nodejs on server"
 
-dnf module enable nodejs:20 -y
+dnf module enable nodejs:20 -y &>>$LOGS_FILE
 VALIDATE $? "enabling nodejs:20 module"
 
-dnf install nodejs -y
+dnf install nodejs -y &>>$LOGS_FILE
 VALIDATE $? "installing nodejs"
 
 useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
